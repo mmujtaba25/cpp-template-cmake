@@ -1,7 +1,7 @@
-#include <fmt/core.h>
+#include <print>
 
 int main() {
-    fmt::print("Hello from C++ template!\n");
+    std::print("Hello from C++ template!\n");
 
     return 0;
 }

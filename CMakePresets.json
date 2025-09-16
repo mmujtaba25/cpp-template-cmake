@@ -7,12 +7,10 @@
   "configurePresets": [
     {
       "name": "default",
-      "displayName": "Default with vcpkg",
+      "displayName": "Default",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_TARGET_TRIPLET": "arm64-osx",
         "CMAKE_BUILD_TYPE": "Debug"
       }
     }

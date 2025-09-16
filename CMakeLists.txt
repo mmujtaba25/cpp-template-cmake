@@ -5,13 +5,6 @@ project(project-name LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# ignore duplicated libraries warning; often by vcpkg
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-no_warn_duplicate_libraries")
-
-# CHANGE: IMPORT PACKAGES
-find_package(fmt CONFIG REQUIRED)
-# END CHANGE
-
 # get all files in src directory
 file(GLOB_RECURSE FILES_FOLDERS
     LIST_DIRECTORIES true
@@ -66,6 +59,5 @@ target_include_directories(
 # CHANGE: link installed libraries here
 target_link_libraries(
     main PRIVATE
-    fmt::fmt
 )
 # END CHANGE
