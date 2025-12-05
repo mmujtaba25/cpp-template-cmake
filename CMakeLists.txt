@@ -5,6 +5,9 @@ project(project-name LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(fmt REQUIRED)
+find_package(SFML COMPONENTS Network Graphics Window Audio System CONFIG REQUIRED)
+
 # get all files in src directory
 file(GLOB_RECURSE FILES_FOLDERS
     LIST_DIRECTORIES true
@@ -55,9 +58,19 @@ target_include_directories(
     "${CMAKE_SOURCE_DIR}/external/included"
 )
 # files in external/included are also included to allow downloading libraries and using them
+add_custom_target(copy_assets ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_SOURCE_DIR}/assets"
+    "${CMAKE_CURRENT_BINARY_DIR}/assets"
+    COMMENT "Copying asset files..."
+)
+
+add_dependencies(main copy_assets)
 
 # CHANGE: link installed libraries here
 target_link_libraries(
     main PRIVATE
+    fmt::fmt
+    SFML::Network SFML::Graphics SFML::Window SFML::Audio SFML::System
 )
 # END CHANGE
