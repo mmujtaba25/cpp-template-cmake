@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# Colors
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+PURPLE='\033[0;35m'
+RESET='\033[0m' # No Color
+
+readonly GREEN RED YELLOW CYAN PURPLE RESET
+
+if [[ -z "$PROJECT_ENV_ACTIVE" ]]; then
+    echo "Environment not active."
+    return 0
+fi
+
+# deactivate the environment
+unset PROJECT_ENV
+unset PROJECT_ENV_ACTIVE
+
+# remove commands from PATH
+# echo "$PATH" -> get path
+# tr ':' '\n' -> replace ':' with "\n"
+# grep -v "^$PROJECT_ENV/commands$" -> select everything except the ones starting with $PROJECT_ENV/commands
+# tr '\n' ':' -> replace "\n" with ':'
+# sed 's/:$//' -> remove trailing ':'
+export PATH="$(echo "$PATH" | tr ':' '\n' | grep -v "^$PROJECT_ENV/commands$" | tr '\n' ':' | sed 's/:$//')"
+
+echo -e "${YELLOW}Deactivated project environment from ${PROJECT_ENV}${RESET}"
+echo -e "${CYAN}To reactivate, run: source .env/activate${RESET}"

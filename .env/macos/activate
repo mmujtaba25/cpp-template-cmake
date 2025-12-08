@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# Colors
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+PURPLE='\033[0;35m'
+RESET='\033[0m' # No Color
+
+readonly GREEN RED YELLOW CYAN PURPLE RESET
+
+# cd "$(dirname "${BASH_SOURCE[0]}")" to go to location where script is ran from
+# pwd to get path
+SCRIPT="$0"
+# resolve symlinks
+while [ -h "$SCRIPT" ]; do
+    DIR=$(dirname -- "$SCRIPT")
+    SCRIPT=$(readlink "$SCRIPT")
+    # if the symlink was relative, resolve relative to the directory
+    case "$SCRIPT" in
+    /*) ;;
+    *) SCRIPT="$DIR/$SCRIPT" ;;
+    esac
+done
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "$SCRIPT")" && pwd)
+export PROJECT_ENV="$SCRIPT_DIR"
+
+# expose scripts in commands
+export PATH="$PROJECT_ENV/commands:$PATH"
+
+# add variable to indicate environment is active
+export PROJECT_ENV_ACTIVE=1
+
+echo -e "${GREEN}Activated project environment from ${PROJECT_ENV}${RESET}"
+echo -e "${CYAN}To deactivate, run: source .env/deactivate${RESET}"
